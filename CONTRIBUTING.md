@@ -10,7 +10,7 @@ Thank you for contributing to DotNet.AutoNormalize!
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/DotNet-AutoNormalize/DotNet.AutoNormalize.git
+   git clone https://github.com/SkyDevLab/DotNet.AutoNormalize.git
    cd DotNet.AutoNormalize
    ```
 2. Restore and build:
