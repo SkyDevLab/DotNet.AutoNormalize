@@ -182,5 +182,5 @@ jobs:
             dotnet nuget push "$pkg" \
               --source https://api.nuget.org/v3/index.json \
               --api-key "$API_KEY" \
-              --skip-duplicate
+              --no-symbols true
           done
