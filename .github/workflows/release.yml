@@ -61,13 +61,13 @@ jobs:
             8.0.x
             9.0.x
 
+      - name: Restore solution dependencies
+        run: dotnet restore DotNet.AutoNormalize.sln
+
       - name: Verify package vulnerabilities
         run: |
           echo "Auditing dependencies for known vulnerabilities..."
           dotnet list package --vulnerable --include-transitive
-
-      - name: Restore solution dependencies
-        run: dotnet restore DotNet.AutoNormalize.sln
 
       - name: Build solution in Release mode
         run: dotnet build DotNet.AutoNormalize.sln -c Release --no-restore -p:ContinuousIntegrationBuild=true -p:Version=${{ steps.version_step.outputs.version }}
