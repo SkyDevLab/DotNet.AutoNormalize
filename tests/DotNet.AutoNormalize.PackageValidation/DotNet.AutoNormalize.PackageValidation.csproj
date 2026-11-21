@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <!-- Consume generated packages directly from ./artifacts/packages -->
-    <PackageReference Include="DotNet.AutoNormalize.AspNetCore" Version="1.0.0-preview.1" />
-    <PackageReference Include="DotNet.AutoNormalize.EntityFrameworkCore" Version="1.0.0-preview.1" />
+    <PackageReference Include="AutoNormalize.AspNetCore" Version="1.0.0-preview.1" />
+    <PackageReference Include="AutoNormalize.EntityFrameworkCore" Version="1.0.0-preview.1" />
 
     <!-- External test dependencies -->
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.0" />

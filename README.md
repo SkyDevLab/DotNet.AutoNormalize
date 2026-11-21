@@ -81,13 +81,13 @@ Install the specific package matching your architectural layer. See [docs/instal
 
 ```bash
 # Core standalone engine
-dotnet add package DotNet.AutoNormalize.Core
+dotnet add package AutoNormalize.Core
 
 # ASP.NET Core (Minimal APIs, MVC & System.Text.Json)
-dotnet add package DotNet.AutoNormalize.AspNetCore
+dotnet add package AutoNormalize.AspNetCore
 
 # Entity Framework Core persistence interceptor
-dotnet add package DotNet.AutoNormalize.EntityFrameworkCore
+dotnet add package AutoNormalize.EntityFrameworkCore
 ```
 
 ---

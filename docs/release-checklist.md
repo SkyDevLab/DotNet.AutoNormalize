@@ -76,5 +76,5 @@ This checklist governs the release process for preview and stable releases of Do
 - [ ] **Post-Publish Verification**:
   - Validate package availability on NuGet.org:
     ```bash
-    dotnet add package DotNet.AutoNormalize.AspNetCore --version 1.0.0-preview.1
+    dotnet add package AutoNormalize.AspNetCore --version 1.0.0-preview.1
     ```

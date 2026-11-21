@@ -10,22 +10,22 @@ There is **no metapackage**. Install only the packages required for your project
 
 | Package ID | Best Used For | Key Dependencies |
 | :--- | :--- | :--- |
-| **`DotNet.AutoNormalize.Abstractions`** | Shared domain libraries, contracts, models, DTOs | None (Zero external dependencies) |
-| **`DotNet.AutoNormalize.Core`** | Console applications, workers, backend service layers | `DotNet.AutoNormalize.Abstractions`, `Microsoft.Extensions.Options` |
-| **`DotNet.AutoNormalize.Json`** | Standalone `System.Text.Json` serialization | `DotNet.AutoNormalize.Core`, `System.Text.Json` |
-| **`DotNet.AutoNormalize.AspNetCore`** | ASP.NET Core Minimal APIs & MVC Web APIs | `DotNet.AutoNormalize.Json`, `Microsoft.AspNetCore.App` |
-| **`DotNet.AutoNormalize.EntityFrameworkCore`** | EF Core `DbContext` database persistence | `DotNet.AutoNormalize.Core`, `Microsoft.EntityFrameworkCore` |
+| **`AutoNormalize.Abstractions`** | Shared domain libraries, contracts, models, DTOs | None (Zero external dependencies) |
+| **`AutoNormalize.Core`** | Console applications, workers, backend service layers | `AutoNormalize.Abstractions`, `Microsoft.Extensions.Options` |
+| **`AutoNormalize.Json`** | Standalone `System.Text.Json` serialization | `AutoNormalize.Core`, `System.Text.Json` |
+| **`AutoNormalize.AspNetCore`** | ASP.NET Core Minimal APIs & MVC Web APIs | `AutoNormalize.Json`, `Microsoft.AspNetCore.App` |
+| **`AutoNormalize.EntityFrameworkCore`** | EF Core `DbContext` database persistence | `AutoNormalize.Core`, `Microsoft.EntityFrameworkCore` |
 
 ---
 
-## 1. `DotNet.AutoNormalize.Abstractions`
+## 1. `AutoNormalize.Abstractions`
 
 ### Package ID
-`DotNet.AutoNormalize.Abstractions`
+`AutoNormalize.Abstractions`
 
 ### Installation
 ```bash
-dotnet add package DotNet.AutoNormalize.Abstractions
+dotnet add package AutoNormalize.Abstractions
 ```
 
 ### Purpose
@@ -57,14 +57,14 @@ public class CustomerDto
 
 ---
 
-## 2. `DotNet.AutoNormalize.Core`
+## 2. `AutoNormalize.Core`
 
 ### Package ID
-`DotNet.AutoNormalize.Core`
+`AutoNormalize.Core`
 
 ### Installation
 ```bash
-dotnet add package DotNet.AutoNormalize.Core
+dotnet add package AutoNormalize.Core
 ```
 
 ### Purpose
@@ -75,7 +75,7 @@ The standalone high-performance normalization engine. Provides built-in string n
 - `net9.0`
 
 ### Dependencies
-- `DotNet.AutoNormalize.Abstractions`
+- `AutoNormalize.Abstractions`
 - `Microsoft.Extensions.Options`
 
 ### When to Use
@@ -103,14 +103,14 @@ normalizer.Normalize(model);
 
 ---
 
-## 3. `DotNet.AutoNormalize.Json`
+## 3. `AutoNormalize.Json`
 
 ### Package ID
-`DotNet.AutoNormalize.Json`
+`AutoNormalize.Json`
 
 ### Installation
 ```bash
-dotnet add package DotNet.AutoNormalize.Json
+dotnet add package AutoNormalize.Json
 ```
 
 ### Purpose
@@ -121,7 +121,7 @@ Provides `System.Text.Json` contract modifiers (`AutoNormalizeJsonTypeInfoModifi
 - `net9.0`
 
 ### Dependencies
-- `DotNet.AutoNormalize.Core`
+- `AutoNormalize.Core`
 - `System.Text.Json`
 
 ### When to Use
@@ -142,14 +142,14 @@ public record PersonRecord(string FullName, string Role);
 
 ---
 
-## 4. `DotNet.AutoNormalize.AspNetCore`
+## 4. `AutoNormalize.AspNetCore`
 
 ### Package ID
-`DotNet.AutoNormalize.AspNetCore`
+`AutoNormalize.AspNetCore`
 
 ### Installation
 ```bash
-dotnet add package DotNet.AutoNormalize.AspNetCore
+dotnet add package AutoNormalize.AspNetCore
 ```
 
 ### Purpose
@@ -160,7 +160,7 @@ Unified ASP.NET Core integration. Automatically configures `System.Text.Json` fo
 - `net9.0`
 
 ### Dependencies
-- `DotNet.AutoNormalize.Json`
+- `AutoNormalize.Json`
 - `Microsoft.AspNetCore.App` (FrameworkReference)
 
 ### When to Use
@@ -185,14 +185,14 @@ app.Run();
 
 ---
 
-## 5. `DotNet.AutoNormalize.EntityFrameworkCore`
+## 5. `AutoNormalize.EntityFrameworkCore`
 
 ### Package ID
-`DotNet.AutoNormalize.EntityFrameworkCore`
+`AutoNormalize.EntityFrameworkCore`
 
 ### Installation
 ```bash
-dotnet add package DotNet.AutoNormalize.EntityFrameworkCore
+dotnet add package AutoNormalize.EntityFrameworkCore
 ```
 
 ### Purpose
@@ -203,7 +203,7 @@ Provides `AutoNormalizeSaveChangesInterceptor` and `DbContextOptionsBuilder.AddA
 - `net9.0`
 
 ### Dependencies
-- `DotNet.AutoNormalize.Core`
+- `AutoNormalize.Core`
 - `Microsoft.EntityFrameworkCore`
 
 ### When to Use

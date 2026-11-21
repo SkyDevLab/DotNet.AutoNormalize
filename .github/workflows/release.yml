@@ -129,7 +129,8 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          name: DotNet.AutoNormalize v${{ needs.verify-and-pack.outputs.release_version }}
+          tag_name: v${{ needs.verify-and-pack.outputs.release_version }}
+          name: AutoNormalize v${{ needs.verify-and-pack.outputs.release_version }}
           files: ./release-artifacts/*
           draft: false
           prerelease: ${{ contains(needs.verify-and-pack.outputs.release_version, '-') }}
@@ -182,5 +183,5 @@ jobs:
             dotnet nuget push "$pkg" \
               --source https://api.nuget.org/v3/index.json \
               --api-key "$API_KEY" \
-              --no-symbols true
+              --skip-duplicate
           done
