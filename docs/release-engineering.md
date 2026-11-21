@@ -55,14 +55,31 @@ Every build computes and publishes `checksums.sha256` containing SHA-256 digests
 
 ## 4. NuGet Publishing Protocol
 
-### 4.1 Preferred Authentication: Trusted Signing & OIDC
-Where supported by NuGet.org and GitHub repository organization configuration, OIDC Trusted Signing allows publishing without storing static API keys.
+### 4.1 NuGet Trusted Publishing via OIDC (Recommended)
+`DotNet.AutoNormalize` supports **NuGet Trusted Publishing**, eliminating long-lived static API keys in favor of short-lived OpenID Connect tokens exchanged directly between GitHub Actions and NuGet.org.
 
-### 4.2 Protected Secrets Alternative
-When using static API keys:
-- The secret `NUGET_API_KEY` is stored strictly within the protected `nuget-release` GitHub Environment.
-- Only users with Maintainer permissions can approve deployments to `nuget-release`.
-- Pull requests and branch builds have zero access to the secret.
+#### Configuration Steps on NuGet.org:
+1. Log into [nuget.org](https://www.nuget.org).
+2. Go to **Account Settings** (or Organization Settings for `SkyDevLab`) → **Trusted Publishing**.
+3. Click **Add a new trusted publisher**:
+   - **Policy Name**: `DotNet-AutoNormalize-Release`
+   - **Repository Owner**: `SkyDevLab`
+   - **Repository Name**: `DotNet.AutoNormalize`
+   - **Workflow Name**: `release.yml`
+   - **Environment**: `nuget-release` (recommended for manual approval gating).
+4. Save the policy.
+
+#### How It Executes in GitHub Actions:
+- The `release.yml` workflow requests an OIDC token (`permissions: id-token: write`).
+- The `NuGet/login@v1` action presents the GitHub identity token to NuGet.org.
+- NuGet.org validates that the workflow is running in `SkyDevLab/DotNet.AutoNormalize` under the `nuget-release` environment, and returns a short-lived, 15-minute publishing token.
+- Packages are published with zero persistent secrets stored in GitHub.
+
+### 4.2 Protected Secrets Alternative (Fallback)
+If Trusted Publishing is not yet configured on the NuGet.org account, the workflow automatically falls back to:
+- Secret `NUGET_API_KEY` stored within the protected `nuget-release` GitHub Environment.
+- Gated behind manual maintainer approval in GitHub repository settings.
+- Standard branch builds and pull requests have zero access to the secret.
 
 ---
 
