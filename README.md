@@ -1,17 +1,13 @@
-<p align="center">
-  <img src="assets/branding/logo.svg" alt="DotNet.AutoNormalize Logo" width="580" />
-</p>
+# AutoNormalize
 
-<p align="center">
-  <strong>Consistent, configurable, safe-by-default input normalization for modern .NET applications.</strong>
-</p>
+![AutoNormalize Logo](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/assets/branding/logo.png)
 
-<p align="center">
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License" /></a>
-  <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-8.0%20%7C%209.0-purple.svg" alt="Supported Frameworks" /></a>
-  <a href="docs/installation.md"><img src="https://img.shields.io/badge/NuGet-1.0.0--preview.1-004880.svg" alt="NuGet Preview" /></a>
-  <a href="docs/benchmark-report.md"><img src="https://img.shields.io/badge/Clean%20String%20Allocation-0%20Bytes-success.svg" alt="Zero Allocation" /></a>
-</p>
+> **Consistent, configurable, safe-by-default input normalization for modern .NET applications.**
+
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/LICENSE)
+[![Supported Frameworks](https://img.shields.io/badge/.NET-8.0%20%7C%209.0-purple.svg)](https://dotnet.microsoft.com/)
+[![NuGet Preview](https://img.shields.io/badge/NuGet-1.0.0--preview.2-004880.svg)](https://www.nuget.org/packages/AutoNormalize.Core/1.0.0-preview.2)
+[![Zero Allocation](https://img.shields.io/badge/Clean%20String%20Allocation-0%20Bytes-success.svg)](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/benchmark-report.md)
 
 ---
 
@@ -47,9 +43,7 @@ When performed manually, normalization is scattered across controllers, validato
 └──────────────────────────┘          └──────────────────────────┘
 ```
 
-<p align="center">
-  <img src="docs/images/before-and-after.svg" alt="Before and After Normalization" width="850" />
-</p>
+![Before and After Normalization](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/docs/images/before-and-after.svg)
 
 ---
 
@@ -77,7 +71,7 @@ When performed manually, normalization is scattered across controllers, validato
 
 ## 5. Package Ecosystem & Installation
 
-Install the specific package matching your architectural layer. See [docs/installation.md](docs/installation.md) for full package details.
+Install the specific package matching your architectural layer. See the [Installation Guide](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/installation.md) for full package details.
 
 ```bash
 # Core standalone engine
@@ -119,9 +113,7 @@ normalizer.Normalize(user);
 // user.Bio == null
 ```
 
-<p align="center">
-  <img src="docs/images/basic-normalization-flow.svg" alt="Basic Normalization Flow" width="850" />
-</p>
+![Basic Normalization Flow](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/docs/images/basic-normalization-flow.svg)
 
 ---
 
@@ -153,9 +145,7 @@ app.Run();
 public record RegisterUserCommand(string FullName, string Email);
 ```
 
-<p align="center">
-  <img src="docs/images/aspnetcore-integration-flow.svg" alt="ASP.NET Core Integration Flow" width="850" />
-</p>
+![ASP.NET Core Integration Flow](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/docs/images/aspnetcore-integration-flow.svg)
 
 ---
 
@@ -180,9 +170,7 @@ var customer = JsonSerializer.Deserialize<CustomerRecord>(json, options);
 // customer.Email == "grace@navy.mil"
 ```
 
-<p align="center">
-  <img src="docs/images/json-deserialization-flow.svg" alt="JSON Deserialization Flow" width="850" />
-</p>
+![JSON Deserialization Flow](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/docs/images/json-deserialization-flow.svg)
 
 ---
 
@@ -204,9 +192,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 ```
 
-<p align="center">
-  <img src="docs/images/efcore-savechanges-flow.svg" alt="EF Core SaveChanges Flow" width="850" />
-</p>
+![EF Core SaveChanges Flow](https://raw.githubusercontent.com/SkyDevLab/DotNet.AutoNormalize/main/docs/images/efcore-savechanges-flow.svg)
 
 ---
 
@@ -287,7 +273,7 @@ Tested via **BenchmarkDotNet v0.14.0** on .NET 9.0 (RyuJIT AVX2, Windows 11):
 | **JSON Deserialization** | `Deserialize_AutoNormalize` | **601.90 ns** | **952 B** |
 | **EF Core SaveChanges** | `SaveChanges_WithAutoNormalize` | **22.23 µs** | **30.95 KB** |
 
-*All microbenchmarks use non-constant runtime inputs (`string.Concat`) to prevent RyuJIT constant-folding. See [docs/benchmark-audit.md](docs/benchmark-audit.md).*
+*All microbenchmarks use non-constant runtime inputs (`string.Concat`) to prevent RyuJIT constant-folding. See the [Benchmark Report & Audit](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/benchmark-audit.md).*
 
 ---
 
@@ -301,21 +287,21 @@ Tested via **BenchmarkDotNet v0.14.0** on .NET 9.0 (RyuJIT AVX2, Windows 11):
 
 ## 15. Documentation Index
 
-- [Installation Guide](docs/installation.md)
-- [Architecture & Design Proposal](docs/api-design-proposal.md)
-- [Security Model & Boundaries](docs/security-model.md)
-- [Benchmark Report & Audit](docs/benchmark-audit.md)
-- [.NET 10 Evaluation](docs/dotnet10-evaluation.md)
-- [Release Engineering & Pipeline](docs/release-engineering.md)
+- [Installation Guide](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/installation.md)
+- [Architecture & Design Proposal](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/api-design-proposal.md)
+- [Security Model & Boundaries](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/security-model.md)
+- [Benchmark Report & Audit](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/benchmark-audit.md)
+- [.NET 10 Evaluation](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/dotnet10-evaluation.md)
+- [Release Engineering & Pipeline](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/release-engineering.md)
 
 ---
 
 ## 16. Contributing & Community
 
-Contributions are welcome! Please review [CONTRIBUTING.md](CONTRIBUTING.md) and [SECURITY.md](SECURITY.md) before opening a pull request or submitting a report.
+Contributions are welcome! Please review [CONTRIBUTING.md](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/CONTRIBUTING.md) and [SECURITY.md](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/SECURITY.md) before opening a pull request or submitting a report.
 
 ---
 
 ## 17. License
 
-Distributed under the [MIT License](LICENSE). Copyright © DotNet.AutoNormalize Contributors.
+Distributed under the [MIT License](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/LICENSE). Copyright © DotNet.AutoNormalize Contributors.
