@@ -4,6 +4,19 @@ All notable changes to DotNet.AutoNormalize will be documented in this file.
 
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
 
+## [1.0.0] - 2026-11-21
+
+### General Availability (GA) Release
+- Official stable release of `AutoNormalize` across all five packages on NuGet.org:
+  - `AutoNormalize.Abstractions`
+  - `AutoNormalize.Core`
+  - `AutoNormalize.Json`
+  - `AutoNormalize.AspNetCore`
+  - `AutoNormalize.EntityFrameworkCore`
+- Fully sanitized CommonMark documentation and assets for NuGet.org rendering.
+- Zero-allocation clean-string fast path (4.83 ns, 0 bytes allocated).
+- Full multi-target compatibility for .NET 8.0, .NET 9.0, and .NET Standard 2.0.
+
 ## [1.0.0-preview.1] - 2026-11-21
 
 ### Added
