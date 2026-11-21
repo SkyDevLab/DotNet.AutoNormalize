@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>WebApiSample</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Abstractions\DotNet.AutoNormalize.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Core\DotNet.AutoNormalize.Core.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Json\DotNet.AutoNormalize.Json.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.AspNetCore\DotNet.AutoNormalize.AspNetCore.csproj" />
+  </ItemGroup>
+</Project>

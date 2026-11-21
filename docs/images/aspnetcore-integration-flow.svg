@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 300" width="960" height="300">
+  <defs>
+    <linearGradient id="webBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#0B0F19" />
+    </linearGradient>
+    <linearGradient id="boxGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="300" rx="16" fill="url(#webBg)" stroke="#1E293B" stroke-width="2" />
+
+  <text x="40" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">ASP.NET Core — Unified Ingress Normalization</text>
+  <text x="40" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#94A3B8">One-line registration via services.AddAutoNormalize() across all input surfaces.</text>
+
+  <!-- Left: Incoming HTTP Request -->
+  <rect x="40" y="105" width="180" height="155" rx="10" fill="url(#boxGrad)" stroke="#334155" stroke-width="1.5" />
+  <text x="130" y="135" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#E2E8F0">HTTP Request</text>
+  <text x="60" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#38BDF8">▶ JSON Request Body</text>
+  <text x="60" y="190" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#818CF8">▶ Query String (?q=)</text>
+  <text x="60" y="215" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#A78BFA">▶ Route Parameter</text>
+  <text x="60" y="240" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" fill="#06B6D4">▶ Form Data Post</text>
+
+  <!-- Ingress Arrows -->
+  <path d="M 220 175 L 280 175" stroke="#64748B" stroke-width="2" />
+
+  <!-- Middle: AutoNormalize Interception Layer -->
+  <rect x="280" y="95" width="380" height="175" rx="12" fill="#1E1B4B" stroke="#6366F1" stroke-width="2" />
+  <text x="470" y="125" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#C7D2FE">builder.Services.AddAutoNormalize()</text>
+
+  <!-- Sub-components inside Middle Layer -->
+  <rect x="300" y="145" width="160" height="105" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
+  <text x="380" y="170" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#38BDF8">System.Text.Json</text>
+  <text x="380" y="195" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#94A3B8">JsonOptions Configured</text>
+  <text x="380" y="215" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#94A3B8">In-flight body tokens</text>
+  <text x="380" y="235" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#34D399">Minimal API + MVC</text>
+
+  <rect x="480" y="145" width="160" height="105" rx="8" fill="#0F172A" stroke="#334155" stroke-width="1" />
+  <text x="560" y="170" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#A78BFA">MVC Model Binder</text>
+  <text x="560" y="195" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#94A3B8">AutoNormalizeProvider</text>
+  <text x="560" y="215" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#94A3B8">Query, Route, Form</text>
+  <text x="560" y="235" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" fill="#34D399">Sensitive names safe</text>
+
+  <!-- Output Arrow -->
+  <path d="M 660 175 L 720 175" stroke="#64748B" stroke-width="2" />
+
+  <!-- Right: Clean Execution Context -->
+  <rect x="720" y="105" width="200" height="155" rx="10" fill="url(#boxGrad)" stroke="#10B981" stroke-width="2" />
+  <text x="820" y="135" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#34D399">Controller / Endpoint</text>
+  <text x="820" y="170" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#F8FAFC">Actions receive clean,</text>
+  <text x="820" y="190" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#F8FAFC">canonical models.</text>
+  <text x="820" y="225" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#38BDF8">Zero Trimming Boilerplate</text>
+</svg>

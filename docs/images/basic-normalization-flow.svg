@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 320" width="960" height="320">
+  <defs>
+    <linearGradient id="flowBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0F172A" />
+      <stop offset="100%" stop-color="#090D16" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="fastPathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#06B6D4" />
+    </linearGradient>
+    <linearGradient id="pipelineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7C3AED" />
+      <stop offset="100%" stop-color="#0284C7" />
+    </linearGradient>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="960" height="320" rx="16" fill="url(#flowBg)" stroke="#1E293B" stroke-width="2" />
+
+  <!-- Header -->
+  <text x="40" y="45" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="20" font-weight="700" fill="#F8FAFC">DotNet.AutoNormalize — Execution Pipeline</text>
+  <text x="40" y="70" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#94A3B8">Zero-allocation fast path for clean inputs; deterministic canonicalization for dirty inputs.</text>
+
+  <!-- Input Node -->
+  <rect x="40" y="110" width="140" height="150" rx="10" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" />
+  <text x="110" y="145" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#E2E8F0">Incoming String</text>
+  <text x="110" y="175" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#94A3B8">string? value</text>
+  <text x="110" y="225" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#64748B">Null / Whitespace /<br/>Unicode / Dirty</text>
+
+  <!-- Branch Arrow -->
+  <path d="M 180 185 L 230 185" stroke="#64748B" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Decision Diamond / Box -->
+  <rect x="230" y="130" width="160" height="110" rx="8" fill="#1E1B4B" stroke="#6366F1" stroke-width="1.5" />
+  <text x="310" y="165" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#C7D2FE">Fast-Path Check</text>
+  <text x="310" y="190" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#A5B4FC">!char.IsWhiteSpace(s[0])</text>
+  <text x="310" y="210" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#A5B4FC">&amp;&amp; s.IsNormalized(FormC)</text>
+
+  <!-- Fast Path Route (Upwards) -->
+  <path d="M 310 130 L 310 100 L 730 100 L 730 130" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="4 4" />
+  <rect x="460" y="85" width="150" height="26" rx="13" fill="#064E3B" stroke="#059669" stroke-width="1" />
+  <text x="535" y="102" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#34D399">Already Clean (4.8 ns, 0 B)</text>
+
+  <!-- Dirty Path Route (Right) -->
+  <path d="M 390 185 L 430 185" stroke="#F43F5E" stroke-width="2" />
+  <text x="410" y="175" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="10" font-weight="700" fill="#FDA4AF">Dirty</text>
+
+  <!-- Pipeline Box -->
+  <rect x="430" y="130" width="260" height="110" rx="8" fill="url(#cardGrad)" stroke="#334155" stroke-width="1.5" />
+  <text x="560" y="155" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="13" font-weight="700" fill="#38BDF8">Transformation Pipeline</text>
+  <text x="560" y="180" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#94A3B8">1. Whitespace Trim (Both/Start/End)</text>
+  <text x="560" y="200" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#94A3B8">2. Empty / Whitespace-to-Null</text>
+  <text x="560" y="220" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#94A3B8">3. Unicode Normalization (Form C)</text>
+
+  <!-- Final Output Node -->
+  <path d="M 690 185 L 750 185" stroke="#64748B" stroke-width="2" />
+  <rect x="750" y="110" width="170" height="150" rx="10" fill="url(#cardGrad)" stroke="#0284C7" stroke-width="2" />
+  <text x="835" y="145" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#38BDF8">Canonical Output</text>
+  <text x="835" y="175" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#F8FAFC">Clean string or null</text>
+  <text x="835" y="215" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" fill="#34D399">✓ Memory Safe<br/>✓ Representation Clean</text>
+</svg>

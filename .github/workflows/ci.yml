@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    name: Build & Test (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, windows-latest ]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install .NET 8 and .NET 9 SDKs
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore DotNet.AutoNormalize.sln
+
+      - name: Build solution
+        run: dotnet build DotNet.AutoNormalize.sln -c Release --no-restore
+
+      - name: Run test suite
+        run: dotnet test DotNet.AutoNormalize.sln -c Release --no-build --verbosity normal
+
+      - name: Pack NuGet packages
+        run: dotnet pack -c Release --no-build -o ./artifacts/packages
+
+      - name: Validate package consumer integration
+        run: dotnet test tests/DotNet.AutoNormalize.PackageValidation/DotNet.AutoNormalize.PackageValidation.csproj -c Release

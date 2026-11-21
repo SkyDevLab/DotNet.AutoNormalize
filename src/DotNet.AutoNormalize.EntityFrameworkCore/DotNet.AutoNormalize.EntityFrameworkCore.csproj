@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <RootNamespace>DotNet.AutoNormalize.EntityFrameworkCore</RootNamespace>
+    <Description>Entity Framework Core SaveChanges interceptor and entity input normalization for DotNet.AutoNormalize.</Description>
+    <PackageTags>normalize;normalization;efcore;entityframeworkcore;interceptor</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet.AutoNormalize.Abstractions\DotNet.AutoNormalize.Abstractions.csproj" />
+    <ProjectReference Include="..\DotNet.AutoNormalize.Core\DotNet.AutoNormalize.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+  </ItemGroup>
+</Project>

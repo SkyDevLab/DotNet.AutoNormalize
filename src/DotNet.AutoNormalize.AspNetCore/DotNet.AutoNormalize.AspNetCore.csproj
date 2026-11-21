@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <RootNamespace>DotNet.AutoNormalize.AspNetCore</RootNamespace>
+    <Description>Unified ASP.NET Core integration for DotNet.AutoNormalize: Minimal APIs, MVC Model Binding, and System.Text.Json configuration.</Description>
+    <PackageTags>normalize;normalization;aspnetcore;minimal-api;mvc;modelbinding</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet.AutoNormalize.Abstractions\DotNet.AutoNormalize.Abstractions.csproj" />
+    <ProjectReference Include="..\DotNet.AutoNormalize.Core\DotNet.AutoNormalize.Core.csproj" />
+    <ProjectReference Include="..\DotNet.AutoNormalize.Json\DotNet.AutoNormalize.Json.csproj" />
+  </ItemGroup>
+</Project>

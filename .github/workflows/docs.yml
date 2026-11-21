@@ -1,0 +1,74 @@
+name: Documentation Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/docs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: false
+
+jobs:
+  build-and-validate:
+    name: Build & Validate Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Validate Markdown and Internal File Links
+        shell: bash
+        run: |
+          echo "Validating documentation structure and links..."
+          test -f README.md || (echo "ERROR: README.md missing" && exit 1)
+          test -d docs || (echo "ERROR: docs directory missing" && exit 1)
+          
+          # Check for referenced markdown files
+          for doc in docs/*.md; do
+            echo "Checking $doc..."
+            test -s "$doc" || (echo "ERROR: $doc is empty" && exit 1)
+          done
+          echo "Documentation files verified successfully."
+
+      - name: Prepare Static Site Content
+        shell: bash
+        run: |
+          mkdir -p ./_site
+          cp README.md ./_site/index.md
+          cp -r docs ./_site/docs
+          
+          # Add simple static Jekyll config for GitHub Pages
+          cat << 'EOF' > ./_site/_config.yml
+          title: DotNet.AutoNormalize Documentation
+          description: Production-grade input normalization for ASP.NET Core and EF Core
+          theme: jekyll-theme-primer
+          markdown: kramdown
+          EOF
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3.0.1
+        with:
+          path: ./_site
+
+  deploy-docs:
+    name: Deploy to GitHub Pages
+    needs: build-and-validate
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4.0.5

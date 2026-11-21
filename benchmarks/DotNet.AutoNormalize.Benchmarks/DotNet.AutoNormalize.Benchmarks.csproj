@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <RootNamespace>DotNet.AutoNormalize.Benchmarks</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Abstractions\DotNet.AutoNormalize.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Core\DotNet.AutoNormalize.Core.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.Json\DotNet.AutoNormalize.Json.csproj" />
+    <ProjectReference Include="..\..\src\DotNet.AutoNormalize.EntityFrameworkCore\DotNet.AutoNormalize.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BenchmarkDotNet" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+  </ItemGroup>
+</Project>

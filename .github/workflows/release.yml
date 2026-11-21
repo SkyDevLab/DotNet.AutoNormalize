@@ -1,0 +1,165 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Semantic Version to release (e.g. 1.0.0-preview.1 or 1.0.0)'
+        required: true
+        type: string
+      dry_run:
+        description: 'Perform a dry-run (build, test, pack, validate) without publishing'
+        required: true
+        type: boolean
+        default: true
+      publish_to_nuget:
+        description: 'Publish packages to NuGet.org (requires manual environment approval)'
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  verify-and-pack:
+    name: Verify, Test & Pack
+    runs-on: ubuntu-latest
+    outputs:
+      release_version: ${{ steps.version_step.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Determine and validate release version
+        id: version_step
+        shell: bash
+        run: |
+          RAW_VERSION="${{ inputs.version }}"
+          if [ -z "$RAW_VERSION" ]; then
+            RAW_VERSION="${GITHUB_REF_NAME#v}"
+          fi
+          echo "Detected version: $RAW_VERSION"
+          
+          # Semantic Versioning regex (SemVer 2.0.0)
+          SEMVER_REGEX='^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$'
+          if [[ ! "$RAW_VERSION" =~ $SEMVER_REGEX ]]; then
+            echo "ERROR: Version '$RAW_VERSION' is not a valid Semantic Version."
+            exit 1
+          fi
+          echo "version=$RAW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Install .NET 8 and .NET 9 SDKs
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005ddab # v4.3.0
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+
+      - name: Verify package vulnerabilities
+        run: |
+          echo "Auditing dependencies for known vulnerabilities..."
+          dotnet list package --vulnerable --include-transitive
+
+      - name: Restore solution dependencies
+        run: dotnet restore DotNet.AutoNormalize.sln
+
+      - name: Build solution in Release mode
+        run: dotnet build DotNet.AutoNormalize.sln -c Release --no-restore -p:ContinuousIntegrationBuild=true
+
+      - name: Run all solution tests
+        run: dotnet test DotNet.AutoNormalize.sln -c Release --no-build --verbosity normal
+
+      - name: Pack NuGet packages and symbols
+        run: |
+          mkdir -p ./artifacts/packages
+          dotnet pack DotNet.AutoNormalize.sln -c Release --no-build -o ./artifacts/packages -p:ContinuousIntegrationBuild=true
+
+      - name: Inspect package contents
+        shell: bash
+        run: |
+          echo "Verifying package assets..."
+          for pkg in ./artifacts/packages/*.nupkg; do
+            echo "Inspecting $pkg..."
+            unzip -l "$pkg" | grep -E "lib/|README.md|\.nuspec"
+          done
+
+      - name: Run downstream package consumer validation
+        run: |
+          echo "Validating packages as external consumer..."
+          dotnet test tests/DotNet.AutoNormalize.PackageValidation/DotNet.AutoNormalize.PackageValidation.csproj -c Release
+
+      - name: Generate SHA-256 Checksums
+        shell: bash
+        run: |
+          cd ./artifacts/packages
+          sha256sum *.nupkg *.snupkg > checksums.sha256
+          echo "=== Checksums ==="
+          cat checksums.sha256
+
+      - name: Upload Release Artifacts
+        uses: actions/upload-artifact@4cec3d8aa04e39d1a68397de0c4cd6fb9dce8ec1 # v4.6.1
+        with:
+          name: nuget-packages
+          path: ./artifacts/packages/*
+          if-no-files-found: error
+
+  publish-github-release:
+    name: Create GitHub Release
+    needs: verify-and-pack
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && !inputs.dry_run
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Download release artifacts
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          name: nuget-packages
+          path: ./release-artifacts
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@c95fe1489396fe8a9eb87238b50d285ad509f0f8 # v2.2.1
+        with:
+          name: DotNet.AutoNormalize v${{ needs.verify-and-pack.outputs.release_version }}
+          files: ./release-artifacts/*
+          draft: false
+          prerelease: ${{ contains(needs.verify-and-pack.outputs.release_version, '-') }}
+          generate_release_notes: true
+
+  publish-nuget:
+    name: Publish to NuGet.org
+    needs: [verify-and-pack]
+    runs-on: ubuntu-latest
+    environment: nuget-release # Protected environment requiring manual approval
+    if: inputs.publish_to_nuget == true && inputs.dry_run == false
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@cc203385981b70ca67e1cc392babf9cc229d5806 # v4.1.9
+        with:
+          name: nuget-packages
+          path: ./packages-to-publish
+
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@3951f0dfe7a07e2313ec93c75700083e2005ddab # v4.3.0
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Push packages to NuGet.org
+        shell: bash
+        run: |
+          for pkg in ./packages-to-publish/*.nupkg; do
+            echo "Publishing $pkg..."
+            dotnet nuget push "$pkg" \
+              --source https://api.nuget.org/v3/index.json \
+              --api-key ${{ secrets.NUGET_API_KEY }} \
+              --skip-duplicate
+          done

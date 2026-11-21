@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net8.0;net9.0</TargetFrameworks>
+    <RootNamespace>DotNet.AutoNormalize.Json</RootNamespace>
+    <Description>System.Text.Json type contract modifiers and metadata-aware deserialization hooks for DotNet.AutoNormalize.</Description>
+    <PackageTags>normalize;normalization;json;system-text-json</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DotNet.AutoNormalize.Abstractions\DotNet.AutoNormalize.Abstractions.csproj" />
+    <ProjectReference Include="..\DotNet.AutoNormalize.Core\DotNet.AutoNormalize.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+</Project>
