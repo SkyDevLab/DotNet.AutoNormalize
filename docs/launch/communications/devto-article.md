@@ -23,7 +23,7 @@ Inevitably, someone forgets a `.Trim()` on an endpoint:
 
 To solve this, developers often reach for a global `JsonConverter<string>`. But as many discover the hard way, **global string converters introduce serious production bugs**.
 
-Here is why naive solutions break, and how we architected [**AutoNormalize**](https://github.com/SkyDevLab/DotNet.AutoNormalize)—an open-source input canonicalization engine for ASP.NET Core, `System.Text.Json`, and EF Core that recently hit **v1.0.0** on NuGet.
+Here is why naive solutions break, and how we architected [**AutoNormalize**](https://skydevlab.github.io/DotNet.AutoNormalize/)—an open-source input canonicalization engine for ASP.NET Core, `System.Text.Json`, and EF Core that recently hit **v1.0.0** on NuGet. (You can also try the live normalization rules and zero-allocation benchmarks in our [interactive web sandbox](https://skydevlab.github.io/DotNet.AutoNormalize/)).
 
 ---
 
@@ -158,6 +158,7 @@ Input canonicalization should be automatic, safe-by-default, and invisible to yo
 
 **AutoNormalize** is fully open-source under the MIT license and multi-targets `.NET 8.0`, `.NET 9.0`, and `.NET Standard 2.0`.
 
+* 🌐 **Interactive Demo & Docs**: [skydevlab.github.io/DotNet.AutoNormalize](https://skydevlab.github.io/DotNet.AutoNormalize/)
 * 📦 **NuGet**: [AutoNormalize.AspNetCore](https://www.nuget.org/packages/AutoNormalize.AspNetCore/1.0.0)
 * ⭐ **GitHub**: [SkyDevLab/DotNet.AutoNormalize](https://github.com/SkyDevLab/DotNet.AutoNormalize)
 * 💬 **Discussions**: [Architecture Discussion & Feedback](https://github.com/SkyDevLab/DotNet.AutoNormalize/discussions/1)

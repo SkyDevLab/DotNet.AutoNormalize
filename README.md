@@ -7,6 +7,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/LICENSE)
 [![Supported Frameworks](https://img.shields.io/badge/.NET-8.0%20%7C%209.0-purple.svg)](https://dotnet.microsoft.com/)
 [![NuGet Version](https://img.shields.io/badge/NuGet-1.0.0-004880.svg)](https://www.nuget.org/packages/AutoNormalize.Core/1.0.0)
+[![Website](https://img.shields.io/badge/Website-Documentation%20%26%20Demo-8B5CF6.svg)](https://skydevlab.github.io/DotNet.AutoNormalize/)
 [![Zero Allocation](https://img.shields.io/badge/Clean%20String%20Allocation-0%20Bytes-success.svg)](https://github.com/SkyDevLab/DotNet.AutoNormalize/blob/main/docs/benchmark-report.md)
 
 ---
