@@ -1,0 +1,9 @@
+# Robots.txt for DotNet.AutoNormalize Documentation & Showcase
+User-agent: *
+Allow: /
+
+# Host
+Host: https://skydevlab.github.io
+
+# Sitemap
+Sitemap: https://skydevlab.github.io/DotNet.AutoNormalize/sitemap.xml
