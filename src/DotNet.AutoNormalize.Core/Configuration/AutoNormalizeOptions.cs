@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using DotNet.AutoNormalize.Abstractions;
 
@@ -116,6 +117,116 @@ public sealed class AutoNormalizeOptions
     /// Gets the ordered list of custom string normalizers to execute.
     /// </summary>
     public IList<IStringNormalizer> CustomNormalizers { get; } = new List<IStringNormalizer>();
+
+    /// <summary>
+    /// Gets the set of namespace prefixes to include for normalization.
+    /// When any include filter (<see cref="IncludedNamespaces"/>, <see cref="IncludedTypes"/>, or <see cref="IncludedAssemblies"/>)
+    /// is non-empty, only matching types are normalized. Excluded rules always take precedence.
+    /// </summary>
+    public ISet<string> IncludedNamespaces { get; } = new HashSet<string>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Gets the set of namespace prefixes to exclude from normalization.
+    /// Exclusion rules always take precedence over inclusion rules.
+    /// </summary>
+    public ISet<string> ExcludedNamespaces { get; } = new HashSet<string>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Gets the set of specific types to include for normalization.
+    /// </summary>
+    public ISet<Type> IncludedTypes { get; } = new HashSet<Type>();
+
+    /// <summary>
+    /// Gets the set of specific types to exclude from normalization.
+    /// Exclusion rules always take precedence over inclusion rules.
+    /// </summary>
+    public ISet<Type> ExcludedTypes { get; } = new HashSet<Type>();
+
+    /// <summary>
+    /// Gets the set of assemblies whose types should be included for normalization.
+    /// </summary>
+    public ISet<Assembly> IncludedAssemblies { get; } = new HashSet<Assembly>();
+
+    /// <summary>
+    /// Gets the set of assemblies whose types should be excluded from normalization.
+    /// Exclusion rules always take precedence over inclusion rules.
+    /// </summary>
+    public ISet<Assembly> ExcludedAssemblies { get; } = new HashSet<Assembly>();
+
+    /// <summary>
+    /// Gets or sets an optional predicate to filter which types are eligible for normalization.
+    /// Executed after namespace, type, and assembly filters; returning <c>false</c> skips normalization for that type.
+    /// </summary>
+    public Func<Type, bool>? TypeFilter { get; set; }
+
+    /// <summary>
+    /// Determines whether the specified <paramref name="type"/> is eligible for normalization
+    /// according to <see cref="DoNotNormalizeAttribute"/>, exclusion rules, inclusion rules, and <see cref="TypeFilter"/>.
+    /// </summary>
+    /// <param name="type">The CLR type to evaluate.</param>
+    /// <returns><c>true</c> if the type should be normalized; otherwise, <c>false</c>.</returns>
+    public bool ShouldNormalizeType(Type type)
+    {
+        if (type is null)
+        {
+            throw new ArgumentNullException(nameof(type));
+        }
+
+        if (type.IsDefined(typeof(DoNotNormalizeAttribute), true))
+        {
+            return false;
+        }
+
+        if (ExcludedTypes.Contains(type) ||
+            ExcludedAssemblies.Contains(type.Assembly) ||
+            MatchesAnyNamespace(type.Namespace, ExcludedNamespaces))
+        {
+            return false;
+        }
+
+        bool hasIncludes = IncludedTypes.Count > 0 ||
+                           IncludedAssemblies.Count > 0 ||
+                           IncludedNamespaces.Count > 0;
+
+        if (hasIncludes &&
+            !IncludedTypes.Contains(type) &&
+            !IncludedAssemblies.Contains(type.Assembly) &&
+            !MatchesAnyNamespace(type.Namespace, IncludedNamespaces))
+        {
+            return false;
+        }
+
+        if (TypeFilter is not null && !TypeFilter(type))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static bool MatchesAnyNamespace(string? typeNamespace, ISet<string> rules)
+    {
+        if (string.IsNullOrEmpty(typeNamespace) || rules.Count == 0)
+        {
+            return false;
+        }
+
+        foreach (string rule in rules)
+        {
+            if (string.IsNullOrWhiteSpace(rule))
+            {
+                continue;
+            }
+
+            if (typeNamespace!.Equals(rule, StringComparison.Ordinal) ||
+                typeNamespace.StartsWith(rule + ".", StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     /// <summary>
     /// Adds a custom normalizer to the normalization pipeline.

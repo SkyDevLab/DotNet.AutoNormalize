@@ -73,7 +73,15 @@ public class PublicApiApprovalTests
         Assert.NotNull(optionsType.GetProperty("SensitivePropertyNames"));
         Assert.NotNull(optionsType.GetProperty("MaxRecursionDepth"));
         Assert.NotNull(optionsType.GetProperty("CustomNormalizers"));
+        Assert.NotNull(optionsType.GetProperty("IncludedNamespaces"));
+        Assert.NotNull(optionsType.GetProperty("ExcludedNamespaces"));
+        Assert.NotNull(optionsType.GetProperty("IncludedTypes"));
+        Assert.NotNull(optionsType.GetProperty("ExcludedTypes"));
+        Assert.NotNull(optionsType.GetProperty("IncludedAssemblies"));
+        Assert.NotNull(optionsType.GetProperty("ExcludedAssemblies"));
+        Assert.NotNull(optionsType.GetProperty("TypeFilter"));
         Assert.NotNull(optionsType.GetMethod("AddNormalizer", [typeof(IStringNormalizer)]));
+        Assert.NotNull(optionsType.GetMethod("ShouldNormalizeType", [typeof(Type)]));
 
         // Verify AutoNormalizer implements IAutoNormalizer
         Assert.True(typeof(IAutoNormalizer).IsAssignableFrom(typeof(AutoNormalizer)));

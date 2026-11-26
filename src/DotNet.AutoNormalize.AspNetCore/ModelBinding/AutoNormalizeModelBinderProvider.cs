@@ -38,8 +38,9 @@ public sealed class AutoNormalizeModelBinderProvider : IModelBinderProvider
             return null;
         }
 
-        // Check if declaring container type is decorated with [DoNotNormalize]
-        if (context.Metadata.ContainerType?.IsDefined(typeof(DoNotNormalizeAttribute), true) == true)
+        // Check if declaring container type is decorated with [DoNotNormalize] or excluded by scope filters
+        if (context.Metadata.ContainerType is not null &&
+            !_options.ShouldNormalizeType(context.Metadata.ContainerType))
         {
             return null;
         }

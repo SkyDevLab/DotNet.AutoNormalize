@@ -56,7 +56,7 @@ public sealed class TypeNormalizationMetadata
         Type = type ?? throw new ArgumentNullException(nameof(type));
 
         IsDoNotNormalize = type.IsDefined(typeof(DoNotNormalizeAttribute), true);
-        IsIgnoredType = DetermineIfIgnored(type);
+        IsIgnoredType = DetermineIfIgnored(type) || (!IsDoNotNormalize && !options.ShouldNormalizeType(type));
 
         if (IsDoNotNormalize || IsIgnoredType)
         {
